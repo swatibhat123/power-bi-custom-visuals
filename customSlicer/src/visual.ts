@@ -14,6 +14,8 @@ import { VisualFormattingSettingsModel } from "./settings";
 
 export class Visual implements IVisual {
     private target: HTMLElement;
+    private container: HTMLElement;
+    private slicerItems: HTMLElement;
     private formattingSettings: VisualFormattingSettingsModel;
     private formattingSettingsService: FormattingSettingsService;
     private data: VData;
@@ -23,7 +25,11 @@ export class Visual implements IVisual {
         this.formattingSettingsService = new FormattingSettingsService();
         this.target = options.element;
         if (document) {
-            
+            this.container = document.createElement("div");
+            this.container.classList.add('slicer-container');
+            this.slicerItems = document.createElement("ul");
+            this.container.appendChild(this.slicerItems);
+            this.target.appendChild(this.container);
         }
     }
 
@@ -31,6 +37,16 @@ export class Visual implements IVisual {
         this.formattingSettings = this.formattingSettingsService.populateFormattingSettingsModel(VisualFormattingSettingsModel, options.dataViews);
         this.data = transformData(options);
         console.log('Visual update', options);
+
+        while(this.slicerItems.firstChild) {
+            this.slicerItems.remove();
+        }
+
+        for(let value of this.data.values) {
+            let slicerItem = document.createElement("li");
+            slicerItem.innerText = <string> value;
+            this.slicerItems.appendChild(slicerItem);
+        }
     
     }
 
