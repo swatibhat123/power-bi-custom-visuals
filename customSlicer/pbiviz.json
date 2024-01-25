@@ -1,1 +1,25 @@
-{"visual":{"name":"customSlicer","displayName":"customSlicer","guid":"customSlicer55295529A32843C0A0840E9A162209BD","visualClassName":"Visual","version":"1.0.0","description":"","supportUrl":"","gitHubUrl":""},"apiVersion":"5.1.0","author":{"name":"","email":""},"assets":{"icon":"assets/icon.png"},"externalJS":null,"style":"style/visual.less","capabilities":"capabilities.json","dependencies":null,"stringResources":[]}
+{
+    "visual": {
+        "name": "customSlicer",
+        "displayName": "customSlicer",
+        "guid": "customSlicer55295529A32843C0A0840E9A162209BD",
+        "visualClassName": "Visual",
+        "version": "1.0.0",
+        "description": "",
+        "supportUrl": "",
+        "gitHubUrl": "https://github.com/swatibhat123/power-bi-custom-visuals/tree/main/customSlicer"
+    },
+    "apiVersion": "5.1.0",
+    "author": {
+        "name": "Swati",
+        "email": "xyz@gmail.com"
+    },
+    "assets": {
+        "icon": "assets/icon.png"
+    },
+    "externalJS": null,
+    "style": "style/visual.less",
+    "capabilities": "capabilities.json",
+    "dependencies": null,
+    "stringResources": []
+}
