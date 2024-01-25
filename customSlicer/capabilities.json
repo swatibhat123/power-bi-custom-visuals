@@ -7,8 +7,14 @@
         }
     ],
     "objects": {
-        "dataPoint": {
+        "slicerSettings": {
             "properties": {
+                "allSelectedLabel": {
+                    "displayName": "All Selected Label",
+                    "type": {
+                        "text": true
+                    }
+                },
                 "defaultColor": {
                     "type": {
                         "fill": {
@@ -18,12 +24,8 @@
                         }
                     }
                 },
-                "showAllDataPoints": {
-                    "type": {
-                        "bool": true
-                    }
-                },
-                "fill": {
+                "selectedColor": {
+                    "displayName": "Selected color",
                     "type": {
                         "fill": {
                             "solid": {
@@ -32,9 +34,12 @@
                         }
                     }
                 },
-                "fillRule": {
+                "fontFamily": {
+                    "displayName": "Font Family",
                     "type": {
-                        "fill": {}
+                        "formatting": {
+                            "fontFamily": true
+                        }
                     }
                 },
                 "fontSize": {
@@ -42,6 +47,32 @@
                         "formatting": {
                             "fontSize": true
                         }
+                    }
+                },
+                "textAlign": {
+                    "displayName": "Text Align",
+                    "type": {
+                        "formatting": {
+                            "alignment": true
+                        }
+                    }
+                },
+                "paddingBottom": {
+                    "displayName": "Padding (bottom)",
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "marginBottom": {
+                    "displayName": "Margin (bottom)",
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "underlineWidth": {
+                    "displayName": "Underline Width",
+                    "type": {
+                        "numeric": true
                     }
                 }
             }
