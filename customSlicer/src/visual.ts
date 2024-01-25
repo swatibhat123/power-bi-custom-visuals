@@ -5,6 +5,7 @@ import powerbi from "powerbi-visuals-api";
 import { FormattingSettingsService } from "powerbi-visuals-utils-formattingmodel";
 import "./../style/visual.less";
 import {VData, transformData} from './transformData';
+import {setStyle} from './setStyles'
 
 import VisualConstructorOptions = powerbi.extensibility.visual.VisualConstructorOptions;
 import VisualUpdateOptions = powerbi.extensibility.visual.VisualUpdateOptions;
@@ -47,6 +48,8 @@ export class Visual implements IVisual {
         for(let value of this.data.values) {
             this.addItem(<string>value);
         }
+
+        setStyle(this.formattingSettings);
     
     }
 

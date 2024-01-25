@@ -6,16 +6,21 @@
         padding: 0;
         margin: 0;
         li {
-            color: rgb(red, green, blue);
-            text-align: center;
-            padding-bottom: 2px;
-            margin-bottom: 6px;
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 16pt;
-            cursor: pointer;
-        }
-        span:hover {
-            border-bottom: 1px solid;
+            color: var(--default-color);
+            text-align: var(--text-align);
+            padding-bottom: var(--padding-bottom);
+            margin-bottom: var(--margin-bottom);
+            span {
+                font-family: var(--font-family);
+                font-size: var(--font-size);
+                cursor: pointer;
+            }
+            span:hover {
+                border-bottom: var(--underline-width) solid;
+            }
+            .selected {
+                color: var(--selected-color);
+            }
         }
     }
 }
