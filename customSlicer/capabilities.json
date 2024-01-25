@@ -4,19 +4,14 @@
             "displayName": "Category Data",
             "name": "category",
             "kind": "Grouping"
-        },
-        {
-            "displayName": "Measure Data",
-            "name": "measure",
-            "kind": "Measure"
         }
     ],
     "privilages": [
         {
-            "name":"WebAccess"
+            "name": "WebAccess"
         },
         {
-            "name":"LocalStorage"
+            "name": "LocalStorage"
         }
     ],
     "objects": {
@@ -50,7 +45,7 @@
                         "fill": {}
                     }
                 },
-                 "fontSize": {
+                "fontSize": {
                     "type": {
                         "formatting": {
                             "fontSize": true
@@ -62,6 +57,13 @@
     },
     "dataViewMappings": [
         {
+            "conditions": [
+                {
+                    "category": {
+                        "max": 1
+                    }
+                }
+            ],
             "categorical": {
                 "categories": {
                     "for": {
@@ -70,18 +72,8 @@
                     "dataReductionAlgorithm": {
                         "top": {}
                     }
-                },
-                "values": {
-                    "select": [
-                        {
-                            "bind": {
-                                "to": "measure"
-                            }
-                        }
-                    ]
                 }
             }
         }
-    ],
-    "privileges": []
+    ]
 }
