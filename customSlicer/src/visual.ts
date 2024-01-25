@@ -42,12 +42,20 @@ export class Visual implements IVisual {
             this.slicerItems.remove();
         }
 
+        this.addItem("All regions");
+
         for(let value of this.data.values) {
-            let slicerItem = document.createElement("li");
-            slicerItem.innerText = <string> value;
-            this.slicerItems.appendChild(slicerItem);
+            this.addItem(<string>value);
         }
     
+    }
+
+    private addItem(txt: string): void {
+        let slicerItem = document.createElement('li')
+        let itemContainer = document.createElement('span')
+        itemContainer.innerText = txt;
+        slicerItem.appendChild(itemContainer);
+        this.slicerItems.appendChild(slicerItem);
     }
 
     /**
