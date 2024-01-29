@@ -10,6 +10,8 @@ import {setStyle} from './setStyles'
 import VisualConstructorOptions = powerbi.extensibility.visual.VisualConstructorOptions;
 import VisualUpdateOptions = powerbi.extensibility.visual.VisualUpdateOptions;
 import IVisual = powerbi.extensibility.visual.IVisual;
+import IVisualHost = powerbi.extensibility.visual.IVisualHost;
+import { IBasicFilter, FilterType } from "powerbi-models";
 
 import { VisualFormattingSettingsModel } from "./settings";
 
@@ -20,11 +22,16 @@ export class Visual implements IVisual {
     private formattingSettings: VisualFormattingSettingsModel;
     private formattingSettingsService: FormattingSettingsService;
     private data: VData;
+    private host: IVisualHost;
+    private basicFilter: IBasicFilter;
 
     constructor(options: VisualConstructorOptions) {
         console.log('Visual constructor', options);
         this.formattingSettingsService = new FormattingSettingsService();
         this.target = options.element;
+        this.host = options.host;
+        this.basicFilter = null;
+
         if (document) {
             this.container = document.createElement("div");
             this.container.classList.add('slicer-container');
@@ -50,12 +57,34 @@ export class Visual implements IVisual {
         }
 
         setStyle(this.formattingSettings);
+
+        this.basicFilter = {
+            $schema: "https://powerbi.com/product/schema#basic",
+            target: {
+                table: this.data.table,
+                column: this.data.column
+            },
+            operator: "In",
+            values: null,
+            filterType: FilterType.Basic
+        },
+
     
     }
 
     private addItem(txt: string): void {
         let slicerItem = document.createElement('li')
         let itemContainer = document.createElement('span')
+        itemContainer.innerText = txt;
+        if(txt !== this.formattingSettings.slicerSettings.allSelectedLabel.value) {
+            itemContainer.onclick = () => {
+                this.basicFilter.values = [txt];
+                this.host.applyJsonFilter(this.basicFilter, 'general', 'filter', powerbi.FilterAction.merge);
+            } 
+        }else {
+            this.basicFilter.values = [txt];
+            this.host.applyJsonFilter(this.basicFilter, 'general', 'filter', powerbi.FilterAction.remove);
+        }
         itemContainer.innerText = txt;
         slicerItem.appendChild(itemContainer);
         this.slicerItems.appendChild(slicerItem);
