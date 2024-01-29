@@ -6,8 +6,13 @@
             "kind": "Grouping"
         },
         {
-            "displayName": "Measure Data",
-            "name": "measure",
+            "displayName": "Values",
+            "name": "values",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Target",
+            "name": "target",
             "kind": "Measure"
         }
     ],
@@ -67,13 +72,41 @@
                     "select": [
                         {
                             "bind": {
-                                "to": "measure"
+                                "to": "values"
                             }
+                            
+                        },
+                        {
+                            "bind": {
+                                "to": "target"
+                            }
+                            
                         }
                     ]
                 }
-            }
+                
+            },
+            "conditions": [
+                {
+                    "category": {
+                        "max": 1
+                    },
+                    "values": {
+                        "max": 1
+                    },
+                    "target": {
+                        "max": 1
+                    }
+                }
+            ]
         }
     ],
-    "privileges": []
+    "privileges": [
+        {
+            "name": "WebAccess"
+        },
+        {
+            "name": "LocalStorage"
+        }
+    ]
 }
