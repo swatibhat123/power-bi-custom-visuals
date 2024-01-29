@@ -45,17 +45,6 @@ export class Visual implements IVisual {
         this.formattingSettings = this.formattingSettingsService.populateFormattingSettingsModel(VisualFormattingSettingsModel, options.dataViews);
         this.data = transformData(options);
         console.log('Visual update', options);
-
-        while(this.slicerItems.firstChild) {
-            this.slicerItems.remove();
-        }
-
-        this.addItem("All regions");
-
-        for(let value of this.data.values) {
-            this.addItem(<string>value);
-        }
-
         setStyle(this.formattingSettings);
 
         this.basicFilter = {
@@ -67,9 +56,19 @@ export class Visual implements IVisual {
             operator: "In",
             values: null,
             filterType: FilterType.Basic
-        },
+        }
 
-    
+        while(this.slicerItems.firstChild) {
+            this.slicerItems.remove();
+        }
+
+        this.addItem("All regions");
+
+        for(let value of this.data.values) {
+            this.addItem(<string>value);
+        }
+
+        this.styleSelected(options);
     }
 
     private addItem(txt: string): void {
@@ -90,10 +89,22 @@ export class Visual implements IVisual {
         this.slicerItems.appendChild(slicerItem);
     }
 
-    /**
-     * Returns properties pane formatting model content hierarchies, properties and latest formatting values, Then populate properties pane.
-     * This method is called once every time we open properties pane or when the user edit any format property. 
-     */
+    private styleSelected(opt: VisualUpdateOptions) {
+        const slicerItems = this.slicerItems.children
+        const f = opt.jsonFilters
+        if (f.length === 0) {
+            slicerItems[0].children[0].classList.add('selected')
+        } else {
+            const selected = (<IBasicFilter>f[0]).values[0]
+            for (let i = 0; i < slicerItems.length; i++) {
+                const item = <HTMLElement>slicerItems[i].children[0]
+                if (item.innerText === selected) {
+                    slicerItems[i].children[0].classList.add('selected')
+                }
+            }
+        }
+    }
+
     public getFormattingModel(): powerbi.visuals.FormattingModel {
         return this.formattingSettingsService.buildFormattingModel(this.formattingSettings);
     }

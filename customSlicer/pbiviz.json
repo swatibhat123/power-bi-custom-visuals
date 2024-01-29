@@ -5,8 +5,8 @@
         "guid": "customSlicer55295529A32843C0A0840E9A162209BD",
         "visualClassName": "Visual",
         "version": "1.0.0",
-        "description": "",
-        "supportUrl": "",
+        "description": "Custom slicer",
+        "supportUrl": "N/A",
         "gitHubUrl": "https://github.com/swatibhat123/power-bi-custom-visuals/tree/main/customSlicer"
     },
     "apiVersion": "5.1.0",

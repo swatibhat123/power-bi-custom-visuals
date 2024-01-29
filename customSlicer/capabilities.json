@@ -117,5 +117,9 @@
         {
             "name": "LocalStorage"
         }
-    ]
+    ],
+
+    "supportsSynchronizingFilterState": true,
+    "suppressDefaultTitle": true
+    
 }
