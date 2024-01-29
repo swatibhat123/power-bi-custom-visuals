@@ -42,10 +42,10 @@ class SlicerSettings extends FormattingSettingsCard {
     });
 
     textAlign = new formattingSettings.AlignmentGroup({
-        name:'Text Align',
+        name:'textAlign',
+        displayName: 'Text alignment',
         mode: powerbi.visuals.AlignmentGroupMode.Horizonal,
         value: "center"
-
     });
 
     paddingBottom = new formattingSettings.NumUpDown({
@@ -62,7 +62,7 @@ class SlicerSettings extends FormattingSettingsCard {
 
     underlineWidth = new formattingSettings.NumUpDown({
         name: "underlineWidth",
-        displayName: "Text Size",
+        displayName: "Undeline width",
         value: 2
     });
 
