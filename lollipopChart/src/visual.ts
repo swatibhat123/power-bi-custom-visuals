@@ -3,6 +3,7 @@
 import powerbi from "powerbi-visuals-api";
 import { FormattingSettingsService } from "powerbi-visuals-utils-formattingmodel";
 import "./../style/visual.less";
+import {transformData, VData} from './transformData';
 
 import VisualConstructorOptions = powerbi.extensibility.visual.VisualConstructorOptions;
 import VisualUpdateOptions = powerbi.extensibility.visual.VisualUpdateOptions;
@@ -14,6 +15,7 @@ export class Visual implements IVisual {
     private target: HTMLElement;
     private formattingSettings: VisualFormattingSettingsModel;
     private formattingSettingsService: FormattingSettingsService;
+    private data: VData;
 
     constructor(options: VisualConstructorOptions) {
         console.log('Visual constructor', options);
@@ -27,7 +29,7 @@ export class Visual implements IVisual {
 
     public update(options: VisualUpdateOptions) {
         this.formattingSettings = this.formattingSettingsService.populateFormattingSettingsModel(VisualFormattingSettingsModel, options.dataViews);
-
+        this.data = transformData(options);
         console.log('Visual update', options);
     }
 
