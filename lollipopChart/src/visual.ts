@@ -4,6 +4,7 @@ import powerbi from "powerbi-visuals-api";
 import { FormattingSettingsService } from "powerbi-visuals-utils-formattingmodel";
 import "./../style/visual.less";
 import {transformData, VData} from './transformData';
+import { Selection, select } from "d3-selection";
 
 import VisualConstructorOptions = powerbi.extensibility.visual.VisualConstructorOptions;
 import VisualUpdateOptions = powerbi.extensibility.visual.VisualUpdateOptions;
@@ -16,6 +17,7 @@ export class Visual implements IVisual {
     private formattingSettings: VisualFormattingSettingsModel;
     private formattingSettingsService: FormattingSettingsService;
     private data: VData;
+    private svg: Selection<SVGAElement, any, HTMLElement, any>
 
     constructor(options: VisualConstructorOptions) {
         console.log('Visual constructor', options);
@@ -23,7 +25,7 @@ export class Visual implements IVisual {
         this.target = options.element;
     
         if (document) {
-            
+            this.svg = select(this.target).append('svg');
         }
     }
 
@@ -31,6 +33,11 @@ export class Visual implements IVisual {
         this.formattingSettings = this.formattingSettingsService.populateFormattingSettingsModel(VisualFormattingSettingsModel, options.dataViews);
         this.data = transformData(options);
         console.log('Visual update', options);
+        const w = options.viewport.width;
+        const h = options.viewport.height;
+
+        this.svg.attr('width', w);
+        this.svg.attr('height', h);
     }
 
     public getFormattingModel(): powerbi.visuals.FormattingModel {
