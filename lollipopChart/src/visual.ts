@@ -5,6 +5,7 @@ import { FormattingSettingsService } from "powerbi-visuals-utils-formattingmodel
 import "./../style/visual.less";
 import {transformData, VData} from './transformData';
 import { Selection, select } from "d3-selection";
+import { ScaleLinear, scaleLinear, ScalePoint, scalePoint } from "d3-scale";
 
 import VisualConstructorOptions = powerbi.extensibility.visual.VisualConstructorOptions;
 import VisualUpdateOptions = powerbi.extensibility.visual.VisualUpdateOptions;
@@ -18,6 +19,9 @@ export class Visual implements IVisual {
     private formattingSettingsService: FormattingSettingsService;
     private data: VData;
     private svg: Selection<SVGAElement, any, HTMLElement, any>
+    private dim: [number, number];
+    private scaleX: ScalePoint<string>;
+    private scaleY: ScaleLinear<number, number>
 
     constructor(options: VisualConstructorOptions) {
         console.log('Visual constructor', options);
@@ -33,11 +37,39 @@ export class Visual implements IVisual {
         this.formattingSettings = this.formattingSettingsService.populateFormattingSettingsModel(VisualFormattingSettingsModel, options.dataViews);
         this.data = transformData(options);
         console.log('Visual update', options);
-        const w = options.viewport.width;
-        const h = options.viewport.height;
+        
+        this.dim = [options.viewport.width, options.viewport.height]
+        this.svg.attr('width', this.dim[0]);
+        this.svg.attr('height', this.dim[1]);
 
-        this.svg.attr('width', w);
-        this.svg.attr('height', h);
+        this.scaleX = scalePoint()
+        .domain(Array.from(this.data.items, data => data.category))
+        .range([0,this.dim[0]]);
+
+        this.scaleY = scaleLinear()
+        .domain([this.data.minValue, this.data.maxValue])
+        .range([this.dim[1], 0]);
+
+        this.drawTarget();
+    }
+
+    private drawTarget() {
+        const targetLine = this.svg.selectAll('line.target-line').data([this.data.target])
+
+        targetLine.enter().append('line')
+            .classed('target-line', true)
+            .attr('x1', 0)
+            .attr('y1', this.scaleY(this.data.target))
+            .attr('x2', this.scaleX.range()[1])
+            .attr('y2', this.scaleY(this.data.target))
+
+        targetLine
+            .attr('y1', this.scaleY(this.data.target))
+            .attr('x2', this.scaleX.range()[1])
+            .attr('y2', this.scaleY(this.data.target))
+
+        targetLine.exit().remove()
+
     }
 
     public getFormattingModel(): powerbi.visuals.FormattingModel {
