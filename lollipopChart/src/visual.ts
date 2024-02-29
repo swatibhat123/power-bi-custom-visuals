@@ -6,6 +6,8 @@ import "./../style/visual.less";
 import {transformData, VData} from './transformData';
 import { Selection, select } from "d3-selection";
 import { ScaleLinear, scaleLinear, ScalePoint, scalePoint } from "d3-scale";
+import { valueFormatter, textMeasurementService} from 'powerbi-visuals-utils-formattingutils'
+import measureSvgTextWidth = textMeasurementService.measureSvgTextWidth
 
 import VisualConstructorOptions = powerbi.extensibility.visual.VisualConstructorOptions;
 import VisualUpdateOptions = powerbi.extensibility.visual.VisualUpdateOptions;
@@ -42,10 +44,12 @@ export class Visual implements IVisual {
         this.svg.attr('width', this.dim[0]);
         this.svg.attr('height', this.dim[1]);
 
+        const targetLabelWidth = this.getTextWidth(this.formatMeasure(this.data.target, this.data.formatString));
+
         this.scaleX = scalePoint()
         .domain(Array.from(this.data.items, data => data.category))
-        .range([0,this.dim[0]]);
-
+        .range([0, this.dim[0] - targetLabelWidth]);
+        
         this.scaleY = scaleLinear()
         .domain([this.data.minValue, this.data.maxValue])
         .range([this.dim[1], 0]);
@@ -70,6 +74,20 @@ export class Visual implements IVisual {
 
         targetLine.exit().remove()
 
+    }
+
+     private formatMeasure(measure: number, fs: string): string {
+        const formatter = valueFormatter.create({format: fs})
+        return formatter.format(measure)
+    }
+
+    private getTextWidth(txt: string): number {
+        const textProperities = {
+            text: txt,
+            fontFamily: 'san-serif',
+            fontSize: '12pt'
+        }
+        return measureSvgTextWidth(textProperities)
     }
 
     public getFormattingModel(): powerbi.visuals.FormattingModel {
