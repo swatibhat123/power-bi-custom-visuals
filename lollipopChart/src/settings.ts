@@ -6,30 +6,31 @@ import FormattingSettingsCard = formattingSettings.Card;
 import FormattingSettingsSlice = formattingSettings.Slice;
 import FormattingSettingsModel = formattingSettings.Model;
 
-class DataPointCardSettings extends FormattingSettingsCard {
+class LollipopSettings extends FormattingSettingsCard {
     defaultColor = new formattingSettings.ColorPicker({
         name: "defaultColor",
         displayName: "Default color",
-        value: { value: "" }
+        value: { value: "#202020" }
     });
 
-    showAllDataPoints = new formattingSettings.ToggleSwitch({
-        name: "showAllDataPoints",
-        displayName: "Show all",
-        value: true
+    dataPointColor = new formattingSettings.ColorPicker({
+        name: "dataPointColor",
+        displayName: "Data Point Color",
+        value: { value: "#B6960B" }
     });
 
-    fill = new formattingSettings.ColorPicker({
-        name: "fill",
-        displayName: "Fill",
-        value: { value: "" }
+    radius = new formattingSettings.NumUpDown({
+        name: "radius",
+        displayName: "Radius",
+        value: 10
     });
 
-    fillRule = new formattingSettings.ColorPicker({
-        name: "fillRule",
-        displayName: "Color saturation",
-        value: { value: "" }
+    lineWidth = new formattingSettings.NumUpDown({
+        name: "lineWidth",
+        displayName: "Line Width",
+        value: 3
     });
+
 
     fontSize = new formattingSettings.NumUpDown({
         name: "fontSize",
@@ -37,14 +38,20 @@ class DataPointCardSettings extends FormattingSettingsCard {
         value: 12
     });
 
+    fontFamily = new formattingSettings.FontPicker({
+        name: "fontFamily",
+        displayName: "Font Family",
+        value: "Arial, sans-serif"
+    });
+
     name: string = "dataPoint";
     displayName: string = "Data colors";
-    slices: Array<FormattingSettingsSlice> = [this.defaultColor, this.showAllDataPoints, this.fill, this.fillRule, this.fontSize];
+    slices: Array<FormattingSettingsSlice> = [this.defaultColor,this.dataPointColor,this.radius, this.lineWidth, this.fontSize, this.fontFamily];
 }
 
 
 export class VisualFormattingSettingsModel extends FormattingSettingsModel {
-    dataPointCard = new DataPointCardSettings();
+    lollipopSettings = new LollipopSettings();
 
-    cards = [this.dataPointCard];
+    cards = [this.lollipopSettings];
 }

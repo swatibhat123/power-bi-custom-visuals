@@ -49,7 +49,7 @@ export class Visual implements IVisual {
         this.scaleX = scalePoint()
         .domain(Array.from(this.data.items, data => data.category))
         .range([0, this.dim[0] - targetLabelWidth]);
-        
+
         this.scaleY = scaleLinear()
         .domain([this.data.minValue, this.data.maxValue])
         .range([this.dim[1], 0]);
@@ -84,8 +84,8 @@ export class Visual implements IVisual {
     private getTextWidth(txt: string): number {
         const textProperities = {
             text: txt,
-            fontFamily: 'san-serif',
-            fontSize: '12pt'
+            fontFamily: this.formattingSettings.lollipopSettings.fontFamily.value,
+            fontSize: `${this.formattingSettings.lollipopSettings.fontSize.value}pt`
         }
         return measureSvgTextWidth(textProperities)
     }

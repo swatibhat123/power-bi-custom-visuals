@@ -17,7 +17,8 @@
         }
     ],
     "objects": {
-        "dataPoint": {
+        "lollipopSettings": {
+            "displayName": "Lollipop Settings",
             "properties": {
                 "defaultColor": {
                     "type": {
@@ -28,12 +29,7 @@
                         }
                     }
                 },
-                "showAllDataPoints": {
-                    "type": {
-                        "bool": true
-                    }
-                },
-                "fill": {
+                "dataPointColor": {
                     "type": {
                         "fill": {
                             "solid": {
@@ -42,15 +38,32 @@
                         }
                     }
                 },
-                "fillRule": {
+                "radius": {
                     "type": {
-                        "fill": {}
+                        "formatting": {
+                            "numeric": true
+                        }
+                    }
+                },
+                "lineWidth": {
+                    "type": {
+                        "formatting": {
+                            "numeric": true
+                        }
                     }
                 },
                  "fontSize": {
                     "type": {
                         "formatting": {
                             "fontSize": true
+                        }
+                    }
+                },
+
+                "fontFamily": {
+                    "type": {
+                        "formatting": {
+                            "fontFamily": true
                         }
                     }
                 }
