@@ -6,8 +6,10 @@ import "./../style/visual.less";
 import {transformData, VData} from './transformData';
 import { Selection, select } from "d3-selection";
 import { ScaleLinear, scaleLinear, ScalePoint, scalePoint } from "d3-scale";
-import { valueFormatter, textMeasurementService} from 'powerbi-visuals-utils-formattingutils'
-import measureSvgTextWidth = textMeasurementService.measureSvgTextWidth
+import { valueFormatter, textMeasurementService} from 'powerbi-visuals-utils-formattingutils';
+import measureSvgTextWidth = textMeasurementService.measureSvgTextWidth;
+import { transition, Transition } from "d3-transition";
+import { easeLinear } from "d3-ease";
 
 import VisualConstructorOptions = powerbi.extensibility.visual.VisualConstructorOptions;
 import VisualUpdateOptions = powerbi.extensibility.visual.VisualUpdateOptions;
@@ -48,13 +50,17 @@ export class Visual implements IVisual {
 
         this.scaleX = scalePoint()
         .domain(Array.from(this.data.items, data => data.category))
-        .range([0, this.dim[0] - targetLabelWidth]);
+        .range([0, this.dim[0] - targetLabelWidth - this.formattingSettings.lollipopSettings.fontSize.value/ 2]);
 
         this.scaleY = scaleLinear()
         .domain([this.data.minValue, this.data.maxValue])
         .range([this.dim[1], 0]);
 
+          //transition
+        this.transition = transition().duration(500).ease(easeLinear);
+
         this.drawTarget();
+        this.drawTargetLabel();
     }
 
     private drawTarget() {
@@ -75,6 +81,28 @@ export class Visual implements IVisual {
         targetLine.exit().remove()
 
     }
+
+    private drawTargetLabel() {
+        const targetLabel = this.svg.selectAll('text.target-label').data([this.data.target])
+
+        targetLabel.enter().append('text')
+            .classed('target-label', true)
+            .attr('x', this.scaleX.range()[1] + this.formattingSettings.lollipopSettings.fontSize.value/ 2)
+            .attr('y', this.scaleY(this.data.target))
+            .attr('font-size', `${this.formattingSettings.lollipopSettings.fontSize.value}pt`)
+            .attr('font-family', this.formattingSettings.lollipopSettings.fontFamily.value)
+            .text(this.formatMeasure(this.data.target, this.data.formatString))
+
+        targetLabel.transition(this.transition)
+            .attr('x', this.scaleX.range()[1] + this.formattingSettings.lollipopSettings.fontSize.value/ 2 )
+            .attr('y', this.scaleY(this.data.target))
+            .attr('font-size', `${this.formattingSettings.lollipopSettings.fontSize.value}pt`)
+            .attr('font-family', this.formattingSettings.lollipopSettings.fontFamily.value)
+            .text(this.formatMeasure(this.data.target, this.data.formatString))
+
+        targetLabel.exit().remove()
+    }
+
 
      private formatMeasure(measure: number, fs: string): string {
         const formatter = valueFormatter.create({format: fs})
